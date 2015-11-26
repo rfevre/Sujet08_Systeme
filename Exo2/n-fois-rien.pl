@@ -3,6 +3,7 @@
 use POSIX ":sys_wait_h";
 
 $cpt = $ARGV[0] or die "Manque Argument";
+@list = ();
 
 for ($i=0; $i<$cpt; $i++) {
     $pid = fork();
@@ -11,11 +12,14 @@ for ($i=0; $i<$cpt; $i++) {
 	`perl rien.pl`;
 	exit 0;
     }
+    else {
+	$list[@list]=$pid;
+    }
 }
 
-do{
-    $pid = wait();
-    print "fils pid : $pid => Terminé","\n"; 
-}while($pid>0);
+foreach $i (@list) {
+    $pid = waitpid($i,0);
+
+}
 
 	   
